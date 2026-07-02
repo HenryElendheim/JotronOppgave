@@ -1,0 +1,30 @@
+body 
+{ 
+    font-family: arial, sans-serif; 
+    max-width: 600px; 
+    margin: 40px auto; 
+    background-color: #3d3d45;
+    color: white;
+}
+label 
+{ 
+    display: block;
+    margin-top: 12px; 
+    font-weight: bold;
+}
+input, select 
+{ 
+    width: 100%; 
+    padding: 6px;
+    margin-top: 4px;
+}
+button 
+{ 
+    margin-top: 16px;
+    padding: 10px 20px;
+}
+a { 
+    display: inline-block; 
+    margin-top: 20px;
+    color: #c38ae6;
+}

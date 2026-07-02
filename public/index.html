@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Upload Certificate</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Upload a Certificate</h1>
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <label>Certificate type</label>
+    <select name="type" required>
+        <option value="Declaration of conformity">Declaration of conformity</option>
+        <option value="Green passport">Green passport</option>
+        <option value="Type approval">Type approval</option>
+        <option value="Product certificate">Product certificate</option>
+    </select>
+
+    <label>Certificate number</label>
+    <input type="text" name="number" required />
+
+    <label>Notified body</label>
+    <input type="text" name="notified_body" required />
+
+    <label>Date of issue</label>
+    <input type="date" name="date_of_issue" required />  
+
+    <label>Expiry date</label>
+    <input type="date" name="expiry_date" required />
+
+    <label>Certificate file (PDF)</label>
+    <input type="file" name="file" accept="application/pdf" required />
+
+    <button type="submit">Upload</button>
+</form>
+
+<a href="/certificates.html">View all certificates &rarr;</a>
+</body>
+</html>
