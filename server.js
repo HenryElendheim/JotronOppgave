@@ -18,10 +18,21 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     },
 });
-const upload = multer({ storage });
+const allowedExtensions = [".pdf", ".png", ".jpg", ".jpeg", ".doc", ".docx"];
+
+const upload = multer({
+    storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        cb(null, allowedExtensions.includes(ext));
+    },
+});
 
 // Handle the upload form submission
 app.post("/upload", upload.single("file"), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send("Invalid or missing file. Allowed: PDF, PNG, JPG, DOC, DOCX.");
+    }
     const { type, number, notified_body, date_of_issue, expiry_date } = req.body;
 
     db.prepare(`
@@ -75,6 +86,24 @@ app.get("/download/:id", (req, res) => {
 
     const filePath = path.join(__dirname, "uploads", cert.file_name);
     res.download(filePath, cert.original_name);
+});
+
+// One certificate's metadata as JSON.
+app.get("/api/certificates/:id", (req, res) => {
+    const cert = db.prepare("SELECT * FROM certificates WHERE id = ?").get(req.params.id);
+    if (!cert) {
+        return res.status(404).json({ error: "Certificate not found." });
+    }
+    res.json(cert);
+});
+
+// Serve the file inline (view in browser) instead of forcing a download.
+app.get("/view/:id", (req, res) => {
+    const cert = db.prepare("SELECT * FROM certificates WHERE id = ?").get(req.params.id);
+    if (!cert) {
+        return res.status(404).send("Certificate not found.");
+    }
+    res.sendFile(path.join(__dirname, "uploads", cert.file_name));
 });
 
 app.listen(PORT, () => {
