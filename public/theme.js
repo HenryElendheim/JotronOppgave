@@ -1,3 +1,7 @@
+// Light/dark theme switching. The active theme is a data attribute on
+// <html>; style.css swaps its color variables based on it. The choice is
+// saved in localStorage so it survives reloads.
+
 const savedTheme = localStorage.getItem("theme") || "light";
 document.documentElement.setAttribute("data-theme", savedTheme);
 

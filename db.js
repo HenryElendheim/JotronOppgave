@@ -1,9 +1,11 @@
 const Database = require("better-sqlite3");
 
-// Creates a database file called certificates.db
+// Opens (or creates on first run) the SQLite database file.
 const db = new Database("certificates.db");
 
-// Create the certificates table if it doesn't already exist
+// Dates are stored as ISO strings (yyyy-mm-dd) so they sort and compare
+// correctly as plain text. file_name is the unique name on disk;
+// original_name is what the user uploaded, kept for nicer downloads.
 db.exec(`
   CREATE TABLE IF NOT EXISTS certificates (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
